@@ -31,8 +31,7 @@ syn keyword kaiDefinitionModifier
 
 syn keyword kaiTypeDefinition skipwhite nextgroup=kaiTypeName
     \ enum
-    \ extension
-    \ protocol
+    \ union
     \ struct
     \ void
     \ int
