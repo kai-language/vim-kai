@@ -16,42 +16,47 @@ syn keyword kaiKeyword
     \ else
     \ fallthrough
     \ for
-    \ guard
     \ if
     \ switch
-    \ while
 
 syn keyword kaiImport skipwhite nextgroup=kaiImportModule
-    \ import
+    \ #import
+    \ #library
+    \ #foreign
 
 syn keyword kaiDefinitionModifier
     \ private
     \ public
     \ static
 
-syn keyword kaiIdentifierKeyword
-    \ self
-
-syn keyword kaiFuncKeywordGeneral skipwhite nextgroup=kaiTypeParameters
-    \ init
-
-syn keyword kaiFuncKeyword
-    \ deinit
-    \ subscript
-
 syn keyword kaiTypeDefinition skipwhite nextgroup=kaiTypeName
     \ enum
     \ extension
     \ protocol
     \ struct
-    \ typedef
+    \ void
+    \ int
+    \ i64
+    \ u64
+    \ i32
+    \ u32
+    \ i16
+    \ u16
+    \ i8
+    \ u8
+    \ i1
+    \ bool
+    \ f64
+    \ f32
+    \ string
+    \ any
 
 syn keyword kaiBoolean
     \ false
     \ true
 
 syn keyword kaiNull
-    \ null
+    \ nil
 
 syn match kaiImportModule contained nextgroup=kaiImportComponent
     \ /\<[A-Za-z_][A-Za-z_0-9]*\>/
@@ -77,6 +82,7 @@ syn match kaiParamDelim contained
 
 syn match kaiTypeDeclaration skipwhite nextgroup=swiftType
       \ /:/
+
 syn match kaiTypeDeclaration skipwhite nextgroup=swiftType
       \ /->/
 
