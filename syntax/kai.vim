@@ -19,15 +19,10 @@ syn keyword kaiKeyword
     \ if
     \ switch
 
-syn keyword kaiImport skipwhite nextgroup=kaiImportModule
-    \ #import
-    \ #library
-    \ #foreign
-
-syn keyword kaiDefinitionModifier
-    \ private
-    \ public
-    \ static
+syn keyword kaiImport skipwhite nextgroup=kaiImportPath, kaiImportFrom, kaiImportNamespace
+    \ import
+    \ library
+    \ foreign
 
 syn keyword kaiTypeDefinition skipwhite nextgroup=kaiTypeName
     \ enum
@@ -57,22 +52,23 @@ syn keyword kaiBoolean
 syn keyword kaiNull
     \ nil
 
-syn match kaiImportModule contained nextgroup=kaiImportComponent
-    \ /\<[A-Za-z_][A-Za-z_0-9]*\>/
-syn match kaiImportComponent contained nextgroup=kaiImportComponent
-    \ /\.\<[A-Za-z_][A-Za-z_0-9]*\>/
+syn keyword kaiImportFrom contained
+    \ from
+
+syn match kaiImportNamespace contained skipwhite nextgroup=kaiImportFrom,kaiImportPath,kaiImportNamespace
+    \ /[A-Za-z_][A-Za-z_0-9]/
+
+syn region kaiImportPath contained skipwhite start=/"/ skip=/\\\\\|\\"/ end=/"/ nextgroup=kaiImportFrom,kaiImportPath
 
 syn match kaiTypeName contained nextgroup=kaiTypeParameters
     \ /\<[A-Za-z_][A-Za-z_0-9\.]*\>/
 syn match kaiVarName contained skipwhite nextgroup=kaiTypeDeclaration
     \ /\<[A-Za-z_][A-Za-z_0-9]*\>/
 
-syn match kaiType contained nextgroup=swiftTypeParameters
+syn match kaiType contained nextgroup=kaiTypeParameters
     \ /\<[A-Za-z_][A-Za-z_0-9\.]*\>[!?]\?/
-syn region kaiType contained contains=swiftTypePair,swiftType
+syn region kaiType contained contains=kaiTypePair,kaiType
     \ matchgroup=Delimiter start=/\[/ end=/\]/
-syn match kaiTypePair contained nextgroup=swiftTypeParameters,swiftTypeDeclaration
-    \ /\<[A-Za-z_][A-Za-z_0-9\.]*\>[!?]\?/
 
 syn region kaiType contained contains=swiftType,swiftParamDelim
       \ matchgroup=Delimiter start="[^@](" end=")" matchgroup=NONE skip=","
@@ -85,7 +81,10 @@ syn match kaiTypeDeclaration skipwhite nextgroup=swiftType
 syn match kaiTypeDeclaration skipwhite nextgroup=swiftType
       \ /->/
 
-syn region kaiString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=kaiInterpolation
+syn match kaiTag skipwhite
+      \ /@[A-Za-z_][A-Za-z_0-9]*/
+
+syn region kaiString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=kaiInterpolation,kaiPrintFModifiers
 syn region kaiInterpolation start=/\\(/ end=/)/ contained
 syn region kaiComment start="/\*" end="\*/" contains=kaiComment,kaiLineComment,kaiTodo
 syn region kaiLineComment start="//" end="$" contains=kaiComment, kaiTodo
@@ -95,24 +94,27 @@ syn match kaiHex /[+\-]\?\<0x[0-9A-Fa-f][0-9A-Fa-f_]*\(\([.][0-9A-Fa-f_]*\)\?[pP
 syn match kaiOct /[+\-]\?\<0o[0-7][0-7_]*\>/
 syn match kaiBin /[+\-]\?\<0b[01][01_]*\>/
 
+syn match kaiPrintFModifiers contained containedin=kaiString
+    \ /%\(\d*.\d*f\|\d*d\|[d\|i\|u\|f\|F\|e\|E\|g\|G\|x\|X\|o\|s\|c\|p\|a\|A\|n]\)/
+
 syn match kaiOperator +\.\@<!\.\.\.\@!\|[/=\-+*%<>!&|^~]\@<!\(/[/*]\@![/=\-+*%<>!&|^~]*\|*/\@![/=\-+*%<>!&|^~]*\|->\@![/=\-+*%<>!&|^~]*\|[=+%<>!&|^~][/=\-+*%<>!&|^~]*\)+ skipwhite nextgroup=swiftTypeParameters
 syn match kaiOperator "\.\.[<.]" skipwhite nextgroup=swiftTypeParameters
 
 syn keyword kaiTodo MARK TODO FIXME contained
 
-hi def link kaiImport Include
-hi def link kaiImportModule Title
-hi def link kaiImportComponent Identifier
+hi def link kaiImport Statement
+hi def link kaiImportFrom Keyword
+hi def link kaiImportPath String
+hi def link kaiImportNamespace Identifier
 hi def link kaiKeyword Statement
 hi def link kaiTypeDefinition Define
 hi def link kaiType Type
-hi def link kaiTypePair Type
 hi def link kaiTypeName Function
-hi def link kaiDefinitionModifier Define
 hi def link kaiVarDefinition Define
 hi def link kaiVarName Identifier
 hi def link kaiIdentifierKeyword Identifier
 hi def link kaiTypeDeclaration Delimiter
+hi def link kaiTag Statement
 hi def link kaiTypeParameters Delimeter
 hi def link kaiBoolean Boolean
 hi def link kaiString String
@@ -125,4 +127,6 @@ hi def link kaiBin Number
 hi def link kaiOperator Function
 hi def link kaiTodo Todo
 hi def link kaiNull Constant
+hi def link kaiPrintFModifiers Todo
+
 let b:current_syntax = "kai"
