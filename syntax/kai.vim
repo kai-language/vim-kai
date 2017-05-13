@@ -18,8 +18,9 @@ syn keyword kaiKeyword
     \ for
     \ if
     \ switch
+    \ return
 
-syn keyword kaiImport skipwhite nextgroup=kaiImportPath, kaiImportFrom, kaiImportNamespace
+syn keyword kaiImport skipwhite nextgroup=kaiImportPath,kaiImportFrom,kaiImportNamespace
     \ import
     \ library
     \ foreign
@@ -64,11 +65,6 @@ syn match kaiTypeName contained nextgroup=kaiTypeParameters
     \ /\<[A-Za-z_][A-Za-z_0-9\.]*\>/
 syn match kaiVarName contained skipwhite nextgroup=kaiTypeDeclaration
     \ /\<[A-Za-z_][A-Za-z_0-9]*\>/
-
-syn match kaiType contained nextgroup=kaiTypeParameters
-    \ /\<[A-Za-z_][A-Za-z_0-9\.]*\>[!?]\?/
-syn region kaiType contained contains=kaiTypePair,kaiType
-    \ matchgroup=Delimiter start=/\[/ end=/\]/
 
 syn region kaiType contained contains=swiftType,swiftParamDelim
       \ matchgroup=Delimiter start="[^@](" end=")" matchgroup=NONE skip=","
