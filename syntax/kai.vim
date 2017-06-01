@@ -19,6 +19,7 @@ syn keyword kaiKeyword
     \ if
     \ switch
     \ return
+    \ using
 
 syn keyword kaiImport skipwhite nextgroup=kaiImportPath,kaiImportFrom,kaiImportNamespace
     \ import
@@ -44,6 +45,7 @@ syn keyword kaiTypeDefinition skipwhite nextgroup=kaiTypeName
     \ f64
     \ f32
     \ string
+    \ rawptr
     \ any
 
 syn keyword kaiBoolean
