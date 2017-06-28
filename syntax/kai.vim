@@ -47,6 +47,7 @@ syn keyword kaiTypeDefinition skipwhite nextgroup=kaiTypeName
     \ string
     \ rawptr
     \ any
+    \ number
 
 syn keyword kaiBoolean
     \ false
@@ -82,7 +83,7 @@ syn match kaiTypeDeclaration skipwhite nextgroup=swiftType
 syn match kaiTag skipwhite
       \ /@[A-Za-z_][A-Za-z_0-9]*/
 
-syn region kaiString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=kaiInterpolation,kaiPrintFModifiers
+syn region kaiString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=kaiInterpolation,kaiPrintFModifiers,kaiStringEscapes
 syn region kaiInterpolation start=/\\(/ end=/)/ contained
 syn region kaiComment start="/\*" end="\*/" contains=kaiComment,kaiLineComment,kaiTodo
 syn region kaiLineComment start="//" end="$" contains=kaiComment, kaiTodo
@@ -95,10 +96,16 @@ syn match kaiBin /[+\-]\?\<0b[01][01_]*\>/
 syn match kaiPrintFModifiers contained containedin=kaiString
     \ /%\(\d*.\d*f\|\d*d\|[d\|i\|u\|f\|F\|e\|E\|g\|G\|x\|X\|o\|s\|c\|p\|a\|A\|n]\)/
 
+syn match kaiStringEscapes
+    \ /\\[a-z]/
+
 syn match kaiOperator +\.\@<!\.\.\.\@!\|[/=\-+*%<>!&|^~]\@<!\(/[/*]\@![/=\-+*%<>!&|^~]*\|*/\@![/=\-+*%<>!&|^~]*\|->\@![/=\-+*%<>!&|^~]*\|[=+%<>!&|^~][/=\-+*%<>!&|^~]*\)+ skipwhite nextgroup=swiftTypeParameters
 syn match kaiOperator "\.\.[<.]" skipwhite nextgroup=swiftTypeParameters
 
 syn keyword kaiTodo MARK TODO FIXME contained
+
+syn match kaiPolymorphic
+    \ /\$[A-Za-a_0-9]\+/
 
 hi def link kaiImport Statement
 hi def link kaiImportFrom Keyword
@@ -126,5 +133,7 @@ hi def link kaiOperator Function
 hi def link kaiTodo Todo
 hi def link kaiNull Constant
 hi def link kaiPrintFModifiers Todo
+hi def link kaiStringEscapes Todo
+hi def link kaiPolymorphic Todo
 
 let b:current_syntax = "kai"

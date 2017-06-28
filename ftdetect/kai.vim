@@ -1,1 +1,1 @@
-au BufNewFile,BufRead *.kai set ft=kai
+au BufNewFile,BufRead *.kai,*.cte set ft=kai
