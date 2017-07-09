@@ -11,7 +11,6 @@ syn keyword kaiKeyword
     \ break
     \ case
     \ continue
-    \ default
     \ defer
     \ else
     \ fallthrough
@@ -20,11 +19,7 @@ syn keyword kaiKeyword
     \ switch
     \ return
     \ using
-
-syn keyword kaiImport skipwhite nextgroup=kaiImportPath,kaiImportFrom,kaiImportNamespace
-    \ import
-    \ library
-    \ foreign
+    \ fn
 
 syn keyword kaiTypeDefinition skipwhite nextgroup=kaiTypeName
     \ enum
@@ -56,13 +51,8 @@ syn keyword kaiBoolean
 syn keyword kaiNull
     \ nil
 
-syn keyword kaiImportFrom contained
-    \ from
-
-syn match kaiImportNamespace contained skipwhite nextgroup=kaiImportFrom,kaiImportPath,kaiImportNamespace
-    \ /[A-Za-z_][A-Za-z_0-9]/
-
-syn region kaiImportPath contained skipwhite start=/"/ skip=/\\\\\|\\"/ end=/"/ nextgroup=kaiImportFrom,kaiImportPath
+syn match kaiDirective
+    \ /#[A-za-z_][A-Za-z_0-9]*/
 
 syn match kaiTypeName contained nextgroup=kaiTypeParameters
     \ /\<[A-Za-z_][A-Za-z_0-9\.]*\>/
@@ -107,10 +97,7 @@ syn keyword kaiTodo MARK TODO FIXME contained
 syn match kaiPolymorphic
     \ /\$[A-Za-a_0-9]\+/
 
-hi def link kaiImport Statement
-hi def link kaiImportFrom Keyword
-hi def link kaiImportPath String
-hi def link kaiImportNamespace Identifier
+hi def link kaiDirective Define
 hi def link kaiKeyword Statement
 hi def link kaiTypeDefinition Define
 hi def link kaiType Type
